@@ -68,6 +68,8 @@ def create_app():
         app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{pg_user}:{pg_password}@{pg_host}:{pg_port}/{pg_database}'
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # Check connections before use, so a restarted database doesn't fail the next request
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_pre_ping': True}
 
 
     db.init_app(app)
